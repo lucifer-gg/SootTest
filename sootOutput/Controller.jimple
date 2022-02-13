@@ -1,0 +1,101 @@
+public class Controller extends java.lang.Object
+{
+
+    public void <init>()
+    {
+        Controller this;
+
+        this := @this: Controller;
+
+        specialinvoke this.<java.lang.Object: void <init>()>();
+
+        return;
+    }
+
+    public boolean LoginController()
+    {
+        java.lang.String adminString, passwordString, password, userName, p2, test;
+        LoginParam $stack10, loginParam;
+        Dao $stack14, dao;
+        Service $stack16, service;
+        boolean $stack19;
+        Controller this;
+
+        this := @this: Controller;
+
+        adminString = "admin";
+
+        passwordString = "123456";
+
+        $stack10 = new LoginParam;
+
+        specialinvoke $stack10.<LoginParam: void <init>(java.lang.String,java.lang.String)>("admin", "123456");
+
+        loginParam = $stack10;
+
+        password = virtualinvoke loginParam.<LoginParam: java.lang.String getPassword()>();
+
+        userName = virtualinvoke loginParam.<LoginParam: java.lang.String getUserName()>();
+
+        p2 = virtualinvoke loginParam.<LoginParam: java.lang.String getPassword()>();
+
+        $stack14 = new Dao;
+
+        specialinvoke $stack14.<Dao: void <init>()>();
+
+        dao = $stack14;
+
+        virtualinvoke dao.<Dao: boolean checkPassword(java.lang.String,java.lang.String)>("admin", p2);
+
+        $stack16 = new Service;
+
+        specialinvoke $stack16.<Service: void <init>()>();
+
+        service = $stack16;
+
+        test = staticinvoke <Test: java.lang.String test(java.lang.String)>(password);
+
+        virtualinvoke dao.<Dao: boolean checkPassword(java.lang.String,java.lang.String)>("a", test);
+
+        $stack19 = virtualinvoke service.<Service: boolean login(java.lang.String,java.lang.String)>(userName, password);
+
+        return $stack19;
+    }
+
+    public boolean testAA()
+    {
+        A $stack4, a;
+        B $stack5, b;
+        java.lang.String $stack6;
+        java.lang.String[] arr;
+        Controller this;
+
+        this := @this: Controller;
+
+        $stack4 = new A;
+
+        specialinvoke $stack4.<A: void <init>()>();
+
+        a = $stack4;
+
+        $stack5 = new B;
+
+        specialinvoke $stack5.<B: void <init>()>();
+
+        b = $stack5;
+
+        a.<A: java.lang.String load> = "ad";
+
+        $stack6 = a.<A: java.lang.String load>;
+
+        b.<B: java.lang.String loadB> = $stack6;
+
+        arr = newarray (java.lang.String)[5];
+
+        arr[0] = "aa";
+
+        arr[1] = "bb";
+
+        return 1;
+    }
+}

@@ -1,0 +1,23 @@
+class Two extends java.lang.Object implements Num
+{
+
+    void <init>()
+    {
+        Two this;
+
+        this := @this: Two;
+
+        specialinvoke this.<java.lang.Object: void <init>()>();
+
+        return;
+    }
+
+    public int get()
+    {
+        Two this;
+
+        this := @this: Two;
+
+        return 2;
+    }
+}

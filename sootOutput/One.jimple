@@ -1,0 +1,36 @@
+class One extends java.lang.Object implements Num
+{
+
+    void <init>()
+    {
+        One this;
+
+        this := @this: One;
+
+        specialinvoke this.<java.lang.Object: void <init>()>();
+
+        return;
+    }
+
+    public int get()
+    {
+        One this;
+
+        this := @this: One;
+
+        return 1;
+    }
+
+    public Num source()
+    {
+        One $stack1, this;
+
+        this := @this: One;
+
+        $stack1 = new One;
+
+        specialinvoke $stack1.<One: void <init>()>();
+
+        return $stack1;
+    }
+}

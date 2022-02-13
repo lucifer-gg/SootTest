@@ -1,0 +1,65 @@
+public class Dao extends java.lang.Object
+{
+
+    public void <init>()
+    {
+        Dao this;
+
+        this := @this: Dao;
+
+        specialinvoke this.<java.lang.Object: void <init>()>();
+
+        return;
+    }
+
+    public boolean checkPassword(java.lang.String, java.lang.String)
+    {
+        java.lang.String userName, $stack3, password;
+        boolean $stack4, $stack5;
+        Dao this;
+
+        this := @this: Dao;
+
+        userName := @parameter0: java.lang.String;
+
+        password := @parameter1: java.lang.String;
+
+        $stack3 = "admin";
+
+        $stack4 = virtualinvoke $stack3.<java.lang.String: boolean equals(java.lang.Object)>(userName);
+
+        if $stack4 == 0 goto label1;
+
+        $stack5 = specialinvoke this.<Dao: boolean check(java.lang.String)>(password);
+
+        if $stack5 == 0 goto label1;
+
+        return 1;
+
+     label1:
+        return 0;
+    }
+
+    private boolean check(java.lang.String)
+    {
+        double $stack2;
+        byte $stack3;
+        Dao this;
+        java.lang.String password;
+
+        this := @this: Dao;
+
+        password := @parameter0: java.lang.String;
+
+        $stack2 = staticinvoke <java.lang.Math: double random()>();
+
+        $stack3 = $stack2 cmpg 0.5;
+
+        if $stack3 >= 0 goto label1;
+
+        return 1;
+
+     label1:
+        return 0;
+    }
+}

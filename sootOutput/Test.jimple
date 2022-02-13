@@ -1,0 +1,25 @@
+public class Test extends java.lang.Object
+{
+
+    public void <init>()
+    {
+        Test this;
+
+        this := @this: Test;
+
+        specialinvoke this.<java.lang.Object: void <init>()>();
+
+        return;
+    }
+
+    public static java.lang.String test(java.lang.String)
+    {
+        java.lang.String testPassword, localTestPassword;
+
+        testPassword := @parameter0: java.lang.String;
+
+        localTestPassword = testPassword;
+
+        return localTestPassword;
+    }
+}

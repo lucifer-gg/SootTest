@@ -1,0 +1,77 @@
+public class CIProblem extends java.lang.Object
+{
+
+    public void <init>()
+    {
+        CIProblem this;
+
+        this := @this: CIProblem;
+
+        specialinvoke this.<java.lang.Object: void <init>()>();
+
+        return;
+    }
+
+    void main()
+    {
+        CIProblem $stack9, p, this;
+        One $stack10, n1, $stack14, z;
+        Two $stack11, n2;
+        Num x, kk;
+
+        this := @this: CIProblem;
+
+        $stack9 = new CIProblem;
+
+        specialinvoke $stack9.<CIProblem: void <init>()>();
+
+        p = $stack9;
+
+        $stack10 = new One;
+
+        specialinvoke $stack10.<One: void <init>()>();
+
+        n1 = $stack10;
+
+        $stack11 = new Two;
+
+        specialinvoke $stack11.<Two: void <init>()>();
+
+        n2 = $stack11;
+
+        x = virtualinvoke p.<CIProblem: Num sink(Num)>(n1);
+
+        virtualinvoke p.<CIProblem: Num sink(Num)>(n2);
+
+        $stack14 = new One;
+
+        specialinvoke $stack14.<One: void <init>()>();
+
+        z = $stack14;
+
+        kk = virtualinvoke z.<One: Num source()>();
+
+        virtualinvoke p.<CIProblem: Num sink(Num)>(kk);
+
+        interfaceinvoke x.<Num: int get()>();
+
+        return;
+    }
+
+    Num sink(Num)
+    {
+        Two $stack2;
+        CIProblem this;
+        Num n;
+
+        this := @this: CIProblem;
+
+        n := @parameter0: Num;
+
+        $stack2 = new Two;
+
+        specialinvoke $stack2.<Two: void <init>()>();
+
+        return $stack2;
+    }
+}

@@ -1,0 +1,77 @@
+public class LoginParam extends java.lang.Object
+{
+    private java.lang.String userName;
+    private java.lang.String password;
+
+    public void <init>(java.lang.String, java.lang.String)
+    {
+        LoginParam this;
+        java.lang.String userName, password;
+
+        this := @this: LoginParam;
+
+        userName := @parameter0: java.lang.String;
+
+        password := @parameter1: java.lang.String;
+
+        specialinvoke this.<java.lang.Object: void <init>()>();
+
+        this.<LoginParam: java.lang.String userName> = userName;
+
+        this.<LoginParam: java.lang.String password> = password;
+
+        return;
+    }
+
+    public java.lang.String getUserName()
+    {
+        LoginParam this;
+        java.lang.String $stack1;
+
+        this := @this: LoginParam;
+
+        $stack1 = this.<LoginParam: java.lang.String userName>;
+
+        return $stack1;
+    }
+
+    public void setUserName(java.lang.String)
+    {
+        LoginParam this;
+        java.lang.String userName;
+
+        this := @this: LoginParam;
+
+        userName := @parameter0: java.lang.String;
+
+        this.<LoginParam: java.lang.String userName> = userName;
+
+        return;
+    }
+
+    public java.lang.String getPassword()
+    {
+        LoginParam this;
+        java.lang.String $stack1;
+
+        this := @this: LoginParam;
+
+        $stack1 = this.<LoginParam: java.lang.String password>;
+
+        return $stack1;
+    }
+
+    public void setPassword(java.lang.String)
+    {
+        LoginParam this;
+        java.lang.String password;
+
+        this := @this: LoginParam;
+
+        password := @parameter0: java.lang.String;
+
+        this.<LoginParam: java.lang.String password> = password;
+
+        return;
+    }
+}

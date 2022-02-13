@@ -1,0 +1,42 @@
+public class Service extends java.lang.Object
+{
+
+    public void <init>()
+    {
+        Service this;
+
+        this := @this: Service;
+
+        specialinvoke this.<java.lang.Object: void <init>()>();
+
+        return;
+    }
+
+    public boolean login(java.lang.String, java.lang.String)
+    {
+        java.lang.String userName, name, password, pa;
+        Dao $stack6, dao;
+        boolean $stack7;
+        Service this;
+
+        this := @this: Service;
+
+        userName := @parameter0: java.lang.String;
+
+        password := @parameter1: java.lang.String;
+
+        name = userName;
+
+        pa = password;
+
+        $stack6 = new Dao;
+
+        specialinvoke $stack6.<Dao: void <init>()>();
+
+        dao = $stack6;
+
+        $stack7 = virtualinvoke dao.<Dao: boolean checkPassword(java.lang.String,java.lang.String)>(name, pa);
+
+        return $stack7;
+    }
+}

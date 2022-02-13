@@ -1,0 +1,15 @@
+public class B extends java.lang.Object
+{
+    public java.lang.String loadB;
+
+    public void <init>()
+    {
+        B this;
+
+        this := @this: B;
+
+        specialinvoke this.<java.lang.Object: void <init>()>();
+
+        return;
+    }
+}
