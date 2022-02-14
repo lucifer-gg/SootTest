@@ -1,5 +1,6 @@
 public class Test extends java.lang.Object
 {
+    public static java.lang.String pass;
 
     public void <init>()
     {

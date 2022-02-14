@@ -14,48 +14,76 @@ public class Controller extends java.lang.Object
 
     public boolean LoginController()
     {
-        java.lang.String adminString, passwordString, password, userName, p2, test;
-        LoginParam $stack10, loginParam;
-        Dao $stack14, dao;
-        Service $stack16, service;
+        java.lang.String[] arr;
+        java.lang.String adminString, passwordString, password, userName, i#2, i#4;
+        LoginParam $stack11, loginParam;
+        Dao $stack15, dao;
+        Service $stack17, service;
         boolean $stack19;
         Controller this;
+        int i;
 
         this := @this: Controller;
+
+        arr = newarray (java.lang.String)[5];
 
         adminString = "admin";
 
         passwordString = "123456";
 
-        $stack10 = new LoginParam;
+        $stack11 = new LoginParam;
 
-        specialinvoke $stack10.<LoginParam: void <init>(java.lang.String,java.lang.String)>("admin", "123456");
+        specialinvoke $stack11.<LoginParam: void <init>(java.lang.String,java.lang.String)>("admin", "123456");
 
-        loginParam = $stack10;
+        loginParam = $stack11;
 
         password = virtualinvoke loginParam.<LoginParam: java.lang.String getPassword()>();
 
         userName = virtualinvoke loginParam.<LoginParam: java.lang.String getUserName()>();
 
-        p2 = virtualinvoke loginParam.<LoginParam: java.lang.String getPassword()>();
+        i = 0;
 
-        $stack14 = new Dao;
+     label1:
+        if i >= 5 goto label2;
 
-        specialinvoke $stack14.<Dao: void <init>()>();
+        arr[i] = password;
 
-        dao = $stack14;
+        i = i + 1;
 
-        virtualinvoke dao.<Dao: boolean checkPassword(java.lang.String,java.lang.String)>("admin", p2);
+        goto label1;
 
-        $stack16 = new Service;
+     label2:
+        i#2 = "";
 
-        specialinvoke $stack16.<Service: void <init>()>();
+        i = 0;
 
-        service = $stack16;
+     label3:
+        if i >= 5 goto label4;
 
-        test = staticinvoke <Test: java.lang.String test(java.lang.String)>(password);
+        i#2 = arr[i];
 
-        virtualinvoke dao.<Dao: boolean checkPassword(java.lang.String,java.lang.String)>("a", test);
+        i = i + 1;
+
+        goto label3;
+
+     label4:
+        i#4 = virtualinvoke loginParam.<LoginParam: java.lang.String getPassword()>();
+
+        $stack15 = new Dao;
+
+        specialinvoke $stack15.<Dao: void <init>()>();
+
+        dao = $stack15;
+
+        virtualinvoke dao.<Dao: boolean checkPassword(java.lang.String,java.lang.String)>("admin", i#4);
+
+        $stack17 = new Service;
+
+        specialinvoke $stack17.<Service: void <init>()>();
+
+        service = $stack17;
+
+        virtualinvoke dao.<Dao: boolean checkPassword(java.lang.String,java.lang.String)>("bb", i#2);
 
         $stack19 = virtualinvoke service.<Service: boolean login(java.lang.String,java.lang.String)>(userName, password);
 
@@ -64,38 +92,56 @@ public class Controller extends java.lang.Object
 
     public boolean testAA()
     {
-        A $stack4, a;
-        B $stack5, b;
-        java.lang.String $stack6;
         java.lang.String[] arr;
+        java.lang.String adminString, passwordString, password, userName, p3, p2;
+        LoginParam $stack11, loginParam;
+        Dao $stack15, dao;
+        Service $stack17, service;
+        boolean $stack19;
         Controller this;
 
         this := @this: Controller;
 
-        $stack4 = new A;
-
-        specialinvoke $stack4.<A: void <init>()>();
-
-        a = $stack4;
-
-        $stack5 = new B;
-
-        specialinvoke $stack5.<B: void <init>()>();
-
-        b = $stack5;
-
-        a.<A: java.lang.String load> = "ad";
-
-        $stack6 = a.<A: java.lang.String load>;
-
-        b.<B: java.lang.String loadB> = $stack6;
-
         arr = newarray (java.lang.String)[5];
 
-        arr[0] = "aa";
+        adminString = "admin";
 
-        arr[1] = "bb";
+        passwordString = "123456";
 
-        return 1;
+        $stack11 = new LoginParam;
+
+        specialinvoke $stack11.<LoginParam: void <init>(java.lang.String,java.lang.String)>("admin", "123456");
+
+        loginParam = $stack11;
+
+        password = virtualinvoke loginParam.<LoginParam: java.lang.String getPassword()>();
+
+        userName = virtualinvoke loginParam.<LoginParam: java.lang.String getUserName()>();
+
+        <Test: java.lang.String pass> = password;
+
+        p3 = <Test: java.lang.String pass>;
+
+        p2 = virtualinvoke loginParam.<LoginParam: java.lang.String getPassword()>();
+
+        $stack15 = new Dao;
+
+        specialinvoke $stack15.<Dao: void <init>()>();
+
+        dao = $stack15;
+
+        virtualinvoke dao.<Dao: boolean checkPassword(java.lang.String,java.lang.String)>("admin", p2);
+
+        $stack17 = new Service;
+
+        specialinvoke $stack17.<Service: void <init>()>();
+
+        service = $stack17;
+
+        virtualinvoke dao.<Dao: boolean checkPassword(java.lang.String,java.lang.String)>("aa", p3);
+
+        $stack19 = virtualinvoke service.<Service: boolean login(java.lang.String,java.lang.String)>(userName, password);
+
+        return $stack19;
     }
 }

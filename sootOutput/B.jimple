@@ -1,6 +1,7 @@
 public class B extends java.lang.Object
 {
     public java.lang.String loadB;
+    public static java.lang.String staticLoadB;
 
     public void <init>()
     {
@@ -11,5 +12,19 @@ public class B extends java.lang.Object
         specialinvoke this.<java.lang.Object: void <init>()>();
 
         return;
+    }
+
+    public java.lang.String foo()
+    {
+        java.io.PrintStream $stack1;
+        B this;
+
+        this := @this: B;
+
+        $stack1 = <java.lang.System: java.io.PrintStream out>;
+
+        virtualinvoke $stack1.<java.io.PrintStream: void println(int)>(1);
+
+        return "dasd";
     }
 }

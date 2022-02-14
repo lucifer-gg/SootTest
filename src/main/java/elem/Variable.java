@@ -16,6 +16,7 @@ public class Variable {
     //三个set记录和这个语句相关的三类语句
     //这三个在method的initialize里面被填充
 
+
     private final Local local;
 
     private final Method method;
@@ -75,6 +76,9 @@ public class Variable {
     }
 
     public String toUniqueString() {
+        if(this instanceof GlobalVariable){
+            return ((GlobalVariable) this).toString();
+        }
         return method.getSootMethod().getSignature() + ": " + local.getName();
     }
 }

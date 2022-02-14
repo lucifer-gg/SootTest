@@ -92,7 +92,12 @@ public class PointerAnalysis {
             PointsToSet delta = propagate(n, pts);
 
             //如果不是var不管他
+
             if (!(n instanceof Var)) {
+                continue;
+            }
+            //而且尝试得出如果var里面的variable实际上是静态变量，那么是不会有Store和load语句的，也不会有call语句
+            if(((Var) n).getVariable() instanceof GlobalVariable){
                 continue;
             }
 
@@ -147,10 +152,6 @@ public class PointerAnalysis {
         PointsToSet delta = PointsToSet.difference(pts, ptsOfn);//pt（n）和pts的差，就是delta
         if (!delta.isEmpty()) {
             ptsOfn.union(delta);
-
-
-
-
 
             // 对于n的后继，delta是新加到pt（n）中的，所以delta也要传播到n的后继中，所以构造pair放到wl中
             PointsToSet normalObj=new PointsToSet();

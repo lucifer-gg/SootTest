@@ -50,18 +50,18 @@ public class PointerAnalysisTransformer extends SceneTransformer {
 
             //获取PFG图输出结果
             PointerFlowGraph PFG = pointerAnalysis.PFG;
-            System.out.println("======== PFG ========");
-            Set<Pointer> pointerSet = new LinkedHashSet<>();
-            pointerSet.addAll(PFG.varMap.values());
-            pointerSet.addAll(PFG.instanceFieldMap.values());
-            for (Pointer pointer : pointerSet) {
-                StringBuilder buff = new StringBuilder();
-                buff.append(pointer).append("\n");
-                buff.append("\t pts: ").append(pointer.getPointsToSet()).append("\n");
-                buff.append("\t edges: ").append(PFG.getSuccessorOf(pointer)).append("\n");
-                System.out.println(buff);
-            }
-            System.out.println("======== End of PFG ========\n");
+//            System.out.println("======== PFG ========");
+//            Set<Pointer> pointerSet = new LinkedHashSet<>();
+//            pointerSet.addAll(PFG.varMap.values());
+//            pointerSet.addAll(PFG.instanceFieldMap.values());
+//            for (Pointer pointer : pointerSet) {
+//                StringBuilder buff = new StringBuilder();
+//                buff.append(pointer).append("\n");
+//                buff.append("\t pts: ").append(pointer.getPointsToSet()).append("\n");
+//                buff.append("\t edges: ").append(PFG.getSuccessorOf(pointer)).append("\n");
+//                System.out.println(buff);
+//            }
+//            System.out.println("======== End of PFG ========\n");
 
             Sink.forEach(sink->{
                 Method sinkMethod=new Method(sink);

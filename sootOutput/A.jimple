@@ -1,6 +1,8 @@
 public class A extends java.lang.Object
 {
     public java.lang.String load;
+    public static java.lang.String staticLoadA;
+    public static B b;
 
     public void <init>()
     {
@@ -9,6 +11,19 @@ public class A extends java.lang.Object
         this := @this: A;
 
         specialinvoke this.<java.lang.Object: void <init>()>();
+
+        return;
+    }
+
+    static void <clinit>()
+    {
+        B $stack0;
+
+        $stack0 = new B;
+
+        specialinvoke $stack0.<B: void <init>()>();
+
+        <A: B b> = $stack0;
 
         return;
     }

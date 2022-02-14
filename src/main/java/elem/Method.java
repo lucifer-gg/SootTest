@@ -1,9 +1,7 @@
 package elem;
 
-import soot.Local;
-import soot.SootMethod;
-import soot.Unit;
-import soot.Value;
+import com.sun.tools.internal.ws.wsdl.document.soap.SOAPUse;
+import soot.*;
 import soot.jimple.*;
 import soot.tagkit.LineNumberTag;
 import soot.tagkit.Tag;
@@ -39,9 +37,9 @@ public class Method {
      *
      * Java语言中的指针有：
      * 1. Local Variable: x          <- 考虑
-     * 2. Static field: C.f           <- 在本作业中我们不考虑(一般实现的话处理成全局变量)
+     * 2. Static field: C.f           <- 已处理
      * 3. instance field: x.f         <- 考虑
-     * 4. Array element: array[i]    <- 在本作业中我们不考虑(一般实现的话处理成array[i]抽象成array.index_field)
+     * 4. Array element: array[i]    <- 已处理
      */
     private void initialize() {
         pointerAffectingStmt = new LinkedHashSet<>();
@@ -56,11 +54,21 @@ public class Method {
                 Value l = assignStmt.getLeftOp();
                 Value r = assignStmt.getRightOp();
                 // x = new T
+                //左边不可能出现静态变量
                 if (l instanceof Local && r instanceof NewExpr) {
                     Variable x = getVariable((Local) l);
                     Allocation alloc = new Allocation(x, assignStmt);
                     addPointerAffectingStmt(stmt, alloc);
                 }
+
+                //处理数组的new
+                //就当作普通的new处理即可
+                if (l instanceof Local && r instanceof NewArrayExpr) {
+                    Variable x = getVariable((Local) l);
+                    Allocation alloc = new Allocation(x, assignStmt);
+                    addPointerAffectingStmt(stmt, alloc);
+                }
+
                 // x = y
                 if (l instanceof Local && r instanceof Local) {
                     Variable x = getVariable((Local) l);
@@ -77,6 +85,7 @@ public class Method {
                     x.getLoads().add(load);
                     addPointerAffectingStmt(stmt, load);
                 }
+
                 // x.f = y
                 if (l instanceof InstanceFieldRef && r instanceof Local) {
                     Variable x = getVariable((Local) ((InstanceFieldRef) l).getBase());
@@ -87,16 +96,56 @@ public class Method {
                     addPointerAffectingStmt(stmt, store);
                 }
                 //x.f=y.f呢？
-                //没有这种语句
+                //没有这种语句,这种语句会被自动拆分
+
                 //处理静态变量
+                //理论上将其作为全局的局部变量就行
+                //C.f=x
+                //x=C.f
+                //试一下会不会出现两边的情况（不会）
+                //也不可能出现C.f=b.f的情况
+                if (l instanceof Local && r instanceof StaticFieldRef) {
+                    Variable x = getVariable((Local) l);
+                    StaticFieldRef rOfStaticFieldRef=(StaticFieldRef)r;
+                    Variable y=Globals.getGlobalVariableFromSootField(rOfStaticFieldRef.getField());
+                    Assign assign = new Assign(y, x);
+                    addPointerAffectingStmt(stmt, assign);
+                }
 
-
+                if (l instanceof StaticFieldRef && r instanceof Local) {
+                    StaticFieldRef lOfStaticFieldRef=(StaticFieldRef)l;
+                    Variable x = Globals.getGlobalVariableFromSootField(lOfStaticFieldRef.getField());
+                    Variable y= getVariable((Local) r);
+                    Assign assign = new Assign(y, x);
+                    addPointerAffectingStmt(stmt, assign);
+                }
 
                 //处理数组
+                //arr[i]=y
+                //当成arr.f=y来处理
+                if(l instanceof ArrayRef && r instanceof Local){
+                    Variable x = getVariable((Local) ((ArrayRef) l).getBase());
+                    //这种方式能够区分明面上的arr[1]和arr[2]，还能将所有的arr[i]视为一个
+                    Field f = new Field(((ArrayRef) l).toString());
+                    Variable y = getVariable((Local) r);
+                    InstanceStore store = new InstanceStore(x, f, y);
+                    x.getStores().add(store);
+                    addPointerAffectingStmt(stmt, store);
+                }
 
-
+                // y = arr[i]
+                //当成y=arr.f
+                if (l instanceof Local && r instanceof ArrayRef) {
+                    Variable y = getVariable((Local) l);
+                    Variable x = getVariable((Local) ((ArrayRef) r).getBase());
+                    Field f = new Field(((ArrayRef) r).toString());
+                    InstanceLoad load = new InstanceLoad(y, x, f);
+                    x.getLoads().add(load);
+                    addPointerAffectingStmt(stmt, load);
+                }
             }
             if (stmt.containsInvokeExpr()) {
+                //其他两种invoke这里其实也应该处理下，后面再说
                 CallSite callSite = null;
                 Variable x = null;
 
@@ -152,6 +201,7 @@ public class Method {
                 if (v instanceof Local) {
                     variableList.add(getVariable((Local) v));
                 }
+                //也有可能是静态变量(不可能)？
             }
         }
         return variableList;
