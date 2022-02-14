@@ -4,4 +4,9 @@ public class Test {
         String localTestPassword=testPassword;
         return localTestPassword;
     }
+
+    public static String getPass() {
+       String aaa=pass;
+       return aaa;
+    }
 }

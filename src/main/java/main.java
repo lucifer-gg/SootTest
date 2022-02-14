@@ -7,6 +7,8 @@ import soot.options.Options;
 
 import java.util.Arrays;
 
+import static soot.SootClass.BODIES;
+
 public class main {
     public static void main(String[] args) {
         Options.v().set_whole_program(true);
@@ -17,7 +19,9 @@ public class main {
         Options.v().setPhaseOption("jb", "use-original-names:true");
         Options.v().set_keep_line_number(true);
         Options.v().set_output_format(Options.output_format_jimple);
+        Scene.v().addBasicClass("java.lang.Math",BODIES);
         Scene.v().loadNecessaryClasses();
+
         String packPhaseName = "wjtp";
         String transformerPhaseName = "wjtp.pointer_analysis";
         Transformer transformer = new PointerAnalysisTransformer();

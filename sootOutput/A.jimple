@@ -15,6 +15,30 @@ public class A extends java.lang.Object
         return;
     }
 
+    public static java.lang.String foo()
+    {
+        java.lang.StringBuilder $stack2, $stack3, $stack4;
+        java.lang.String res;
+        byte a;
+        int a#2;
+
+        a = 1;
+
+        a#2 = a + 1;
+
+        $stack2 = new java.lang.StringBuilder;
+
+        specialinvoke $stack2.<java.lang.StringBuilder: void <init>()>();
+
+        $stack3 = virtualinvoke $stack2.<java.lang.StringBuilder: java.lang.StringBuilder append(int)>(a#2);
+
+        $stack4 = virtualinvoke $stack3.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>("");
+
+        res = virtualinvoke $stack4.<java.lang.StringBuilder: java.lang.String toString()>();
+
+        return res;
+    }
+
     static void <clinit>()
     {
         B $stack0;

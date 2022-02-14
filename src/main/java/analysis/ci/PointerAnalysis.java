@@ -6,10 +6,7 @@ import analysis.JimpleCallGraph;
 import analysis.TaintGenerator;
 import elem.*;
 import soot.*;
-import soot.jimple.AssignStmt;
-import soot.jimple.InvokeExpr;
-import soot.jimple.NewExpr;
-import soot.jimple.StringConstant;
+import soot.jimple.*;
 import soot.jimple.internal.JimpleLocal;
 import soot.toolkits.scalar.Pair;
 import stmt.*;
@@ -131,7 +128,86 @@ public class PointerAnalysis {
 
             // 处理assign
             processLocalAssign(m);
+
+            //staticCall啥的我觉得应该是在这处理的
+            //而且处理方式和processCall应该是类似的，只是不需要处理dispatch而已
+            processStaticCalls(m);
+
+
         }
+    }
+
+    protected void processStaticCalls(Method methodInput){
+        for (StaticCallSite staticCallSite:methodInput.getStaticCalls()) {
+            //静态方法
+            StaticInvokeExpr staticInvokeExpr=staticCallSite.getStaticInvokeExpr();
+            SootMethod staticMethod = staticInvokeExpr.getMethod();
+
+            Method method = null;
+            for (Method m : RM) {
+                if (m.getSootMethod() == staticMethod) {
+                    method = m;
+                    break;
+                }
+            }
+
+            if (method == null) {
+                method = new Method(staticMethod);
+            }
+
+            if(SOURCE.contains(method.getSootMethod())){
+                Variable ret=staticCallSite.getRet();
+                if(ret!=null){
+                    WL.addPointerEntry(PFG.getVar(ret), PointsToSet.singleton(TaintGenerator.getTaintObj(method,staticCallSite)));
+                }
+            }
+
+            if (!CG.contains(staticCallSite.getCallSite(), method.getSootMethod())) {
+                // add l -> m to CG
+                CG.addEdge(staticCallSite.getCallSite(), method.getSootMethod(), CallKind.getCallKind(staticCallSite.getCallSite()));
+
+                addReachable(method);
+
+                // foreach parameter p_i of m do
+                //   AddEdge(a_i, p_i)
+                //建立参数间的对照关系
+                StaticInvokeExpr invoke=staticCallSite.getStaticInvokeExpr();
+                for (int i = 0; i < method.getParams().size(); i++) {
+                    //这里记得处理直接传string的情况
+                    Value arg1 = invoke.getArg(i);
+                    if(arg1 instanceof StringConstant){
+                        StringConstant stringConstant=(StringConstant)arg1;
+                        Local arg=new JimpleLocal(stringConstant.toString()+invoke.toString(),stringConstant.getType());
+                        //pi
+                        Variable argVariable = methodInput.getVariable(arg);
+                        //ai
+                        Variable paramVariable = method.getParams().get(i);
+                        //建立边关系
+                        addPFGEdge(PFG.getVar(argVariable), PFG.getVar(paramVariable));
+                    }else {
+                        Local arg = (Local) invoke.getArg(i);
+                        //pi
+                        Variable argVariable = methodInput.getVariable(arg);
+                        //ai
+                        Variable paramVariable = method.getParams().get(i);
+                        //建立边关系
+                        addPFGEdge(PFG.getVar(argVariable), PFG.getVar(paramVariable));
+                    }
+                }
+
+                // AddEdge(m_ret, r)
+                //就是r
+                //建立返回值的对照关系
+                Variable callerRetVar = staticCallSite.getRet();
+                if (callerRetVar != null) {
+                    List<Variable> calleeRetVariableList = method.getRetVariable();
+                    for (Variable calleeRetVar : calleeRetVariableList) {
+                        addPFGEdge(PFG.getVar(calleeRetVar), PFG.getVar(callerRetVar));
+                    }
+                }
+            }
+        }
+        //还需要处理另外两种call的情形。
     }
 
     /**
@@ -414,6 +490,7 @@ public class PointerAnalysis {
     //这个方法就是之前的dispatch方法，先匹配本类中的方法是否有符合的，没有去找父类
     //fix:返回值也应该参与比较
     //此方法修改为返回值也参与比较，且参数全匹配才行
+    //
     private SootMethod dispatch(SootClass sootClass, SootMethod method) {
         for (SootMethod m : sootClass.getMethods()) {
             if (!m.isAbstract()) {

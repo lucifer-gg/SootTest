@@ -11,6 +11,9 @@ public class CallSite {
     private final Variable receiver;
     private final Variable ret;
 
+    public CallSite(){
+        this(null);
+    }
 
     public CallSite(Stmt callSite) {
         this(callSite, null);

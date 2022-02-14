@@ -21,8 +21,34 @@ public class TaintObj extends Obj{
         this.fatherObj=obj;
     }
 
+    public TaintObj(Method sourceMethod,CallSite callSite){
+        super();
+        this.sourceMethod=sourceMethod;
+        this.callSite=callSite;
+        this.path=new ArrayList<>();
+        this.fatherObj=null;
+
+    }
+
     @Override
     public String toString() {
+
+        if(callSite instanceof StaticCallSite){
+            String s1="这是一个污点对象，来源方法是：+\n" +
+                    ""+sourceMethod.toString()+"\n"+" " +
+                    "产生时的调用点为：\n"
+                    +callSite.toString()+"\n";
+
+            s1+="到当前变量的传播路径为：\n";
+            for (Pointer pointer:path){
+                s1+=pointer.toString();
+                s1+="\n";
+                s1+="-->";
+            }
+            return s1;
+
+
+        }
 
         String s1="这是一个污点对象，来源方法是：+\n" +
                 ""+sourceMethod.toString()+"\n"+" " +
@@ -51,8 +77,15 @@ public class TaintObj extends Obj{
     }
 
     public TaintObj clone(){
-        TaintObj obj=new TaintObj(this.sourceMethod,this.callSite,this.fatherObj);
-        obj.path=new ArrayList<>(this.path);
-        return obj;
+        if(this.fatherObj==null){
+            TaintObj obj = new TaintObj(this.sourceMethod, this.callSite);
+            obj.path = new ArrayList<>(this.path);
+            return obj;
+        }
+        else {
+            TaintObj obj = new TaintObj(this.sourceMethod, this.callSite, this.fatherObj);
+            obj.path = new ArrayList<>(this.path);
+            return obj;
+        }
     }
 }

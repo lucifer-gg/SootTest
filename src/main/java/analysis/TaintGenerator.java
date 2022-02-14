@@ -9,4 +9,8 @@ public class TaintGenerator {
     public static TaintObj getTaintObj(Method sourceMethod, CallSite callSite,Obj object) {
         return new TaintObj(sourceMethod,callSite,object);
     }
+    public static TaintObj getTaintObj(Method sourceMethod, CallSite callSite) {
+        return new TaintObj(sourceMethod,callSite);
+    }
+
 }

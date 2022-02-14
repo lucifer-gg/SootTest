@@ -20,6 +20,8 @@ public class Method {
 
     private Map<Local, Variable> localMap;
 
+    private Set<StaticCallSite> staticCalls;
+
     public Method(SootMethod sootMethod) {
         this.delegate = sootMethod;
         initialize();
@@ -43,6 +45,7 @@ public class Method {
      */
     private void initialize() {
         pointerAffectingStmt = new LinkedHashSet<>();
+        staticCalls=new LinkedHashSet<>();
 
         // 避免重复生成对象
         localMap = new HashMap<>();
@@ -146,6 +149,7 @@ public class Method {
             }
             if (stmt.containsInvokeExpr()) {
                 //其他两种invoke这里其实也应该处理下，后面再说
+
                 CallSite callSite = null;
                 Variable x = null;
 
@@ -163,8 +167,25 @@ public class Method {
                     }
                 } else if (invokeExpr instanceof StaticInvokeExpr) {
                     // ClassName.k(arg, ...)   : static call
+                    //这里只是单纯记录，特殊处理，先不封装
                     callSite = new CallSite(stmt);
+                    StaticInvokeExpr staticInvokeExpr=(StaticInvokeExpr) invokeExpr;
+                    StaticCallSite staticCallSite=null;
+                    if (stmt instanceof AssignStmt && ((AssignStmt) stmt).getLeftOp() instanceof Local) {
+                        // r = C.k(arg, ...)
+                        Variable r = getVariable((Local) ((AssignStmt) stmt).getLeftOp());
+                        staticCallSite=new StaticCallSite(stmt,r,staticInvokeExpr);
+                    } else {
+                        // C.k(arg, ...)
+                        staticCallSite=new StaticCallSite(stmt,staticInvokeExpr);
+                    }
+
+                    staticCalls.add(staticCallSite);
                 }
+
+                //specialCall
+
+
 
                 Call call = new Call(callSite);
                 if (x != null) {
@@ -255,6 +276,10 @@ public class Method {
         }
         buff.append("}");
         return buff.toString();
+    }
+
+    public Set<StaticCallSite> getStaticCalls(){
+        return staticCalls;
     }
 }
 

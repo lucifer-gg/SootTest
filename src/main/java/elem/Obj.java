@@ -14,6 +14,10 @@ public class Obj {
 
     private Method method;
 
+    public Obj(){
+
+    }
+
     public Obj(Object allocSite, String type, Method method) {
         this.allocSite = allocSite;
         this.type = type;

@@ -63,6 +63,7 @@ public class PointerAnalysisTransformer extends SceneTransformer {
 //            }
 //            System.out.println("======== End of PFG ========\n");
 
+            System.out.println("======分析报告===========");
             Sink.forEach(sink->{
                 Method sinkMethod=new Method(sink);
                 List<Variable> params = sinkMethod.getParams();

@@ -23,4 +23,13 @@ public class Test extends java.lang.Object
 
         return localTestPassword;
     }
+
+    public static java.lang.String getPass()
+    {
+        java.lang.String aaa;
+
+        aaa = <Test: java.lang.String pass>;
+
+        return aaa;
+    }
 }
