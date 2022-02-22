@@ -19,7 +19,7 @@ public class PointerAnalysisTransformer extends SceneTransformer {
         //先找到入口方法
         for (SootClass clazz : Scene.v().getApplicationClasses()) {
             for (SootMethod method : clazz.getMethods()) {
-                if ("LoginController".equals(method.getName())) {
+                if ("main".equals(method.getName())) {
                     entries.add(method);
                 }
                 if("getPassword".equals(method.getName())){

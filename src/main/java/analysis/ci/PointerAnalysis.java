@@ -72,6 +72,17 @@ public class PointerAnalysis {
 
         //1-第一步
         addReachable(entry);
+        //待处理，入口是普通方法，调用本对象内的其他普通方法还是会出错
+        //主要是由于入口方法的this没有分配点造成的
+        //可以考虑构造一个静态方法作为入口，避免这个问题
+        //构造是自动还是其他过程再说。
+        //如果这样处理下面的处理就是不必要的
+//        if(!entry.getSootMethod().isStatic()){
+//            //不是静态方法，要给this赋予一个初始对象
+//            //否则在入口方法内的this相关的方法（私有方法，父类方法）不会被调用
+//            WL.addPointerEntry(PFG.getVar(entry.getThisVariable()),PointsToSet.singleton(new Obj()));
+//        }
+
     }
 
     /**
@@ -390,9 +401,18 @@ public class PointerAnalysis {
                 // r = var.k(a1, ..., an)
                 CallSite callSite = call.getCallSite();
                 // m = Dispatch(o_i, k)
-                //分派到具体方法
-                //对于每个oi和调用点进行分派，确定方法
-                Method m = dispatch(o_i, callSite);
+
+                Method m=null;
+                if(callSite.getCallSite().getInvokeExpr() instanceof SpecialInvokeExpr){
+                    //specialInvoke不需要分派
+                    m=dispatchForSpecialCall(callSite);
+                }else {
+                    //分派到具体方法
+                    //对于每个oi和调用点进行分派，确定方法
+                    m = dispatch(o_i, callSite);
+                }
+
+
                 // add <m_this, {o_i}> to WL
                 //把m的this变量加入到wl中
                 WL.addPointerEntry(PFG.getVar(m.getThisVariable()), PointsToSet.singleton(o_i));
@@ -452,6 +472,23 @@ public class PointerAnalysis {
                 }
             }
         }
+    }
+
+    protected Method dispatchForSpecialCall(CallSite callSite){
+        SootMethod sootMethod=callSite.getCallSite().getInvokeExpr().getMethod();
+        Method method = null;
+        for (Method m : RM) {
+            if (m.getSootMethod() == sootMethod) {
+                method = m;
+                break;
+            }
+        }
+
+        if (method == null) {
+            method = new Method(sootMethod);
+        }
+        return method;
+
     }
 
     //根据对象和调用点分派

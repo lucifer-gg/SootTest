@@ -1,11 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Controller {
+public class Controller extends father{
+
+    public static void main(String[] args) {
+        Controller controller=new Controller();
+        controller.LoginController();
+    }
 
     public boolean LoginController(){
 
-        String arr[]=new String[5];
 
         String adminString="admin";
         String passwordString="123456";
@@ -14,14 +18,14 @@ public class Controller {
         String userName = loginParam.getUserName();
 
 
+
+        String p3=super.passFromFather(password);
+
+
         String p2=loginParam.getPassword();
         Dao dao=new Dao();
         dao.checkPassword("admin",p2);
         Service service=new Service();
-
-
-        Test.pass=password;
-        String p3=Test.getPass();
 
         service.login("a1",p3);
         return service.login(userName,password);
@@ -29,9 +33,19 @@ public class Controller {
     }
 
     public boolean testAA(){
-        String res=A.foo();
-        return true;
+        String s1="aa";
+        String p3=passFromFather(s1);
+        return p3==null;
 
+    }
+//
+//    private boolean aaa(){
+//        return false;
+//    }
+
+    private String testPrivate(String input){
+        String inner=input;
+        return inner;
     }
 
 }

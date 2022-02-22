@@ -181,10 +181,23 @@ public class Method {
                     }
 
                     staticCalls.add(staticCallSite);
+                }else if(invokeExpr instanceof SpecialInvokeExpr){
+                    //也是直接记录下来
+                    //处理方式和virtualCall一致
+                    //只是在processCall里面不需要dispatch而已
+                    //specialCall
+                    //构造函数，私有方法，父类方法
+                    x = getVariable((Local) ((SpecialInvokeExpr) invokeExpr).getBase());
+                    if (stmt instanceof AssignStmt && ((AssignStmt) stmt).getLeftOp() instanceof Local) {
+                        //带返回值
+                        Variable r = getVariable((Local) ((AssignStmt) stmt).
+                                getLeftOp());
+                        callSite = new CallSite(stmt, x, r);
+                    } else {
+                        // 不带返回值
+                        callSite = new CallSite(stmt, x);
+                    }
                 }
-
-                //specialCall
-
 
 
                 Call call = new Call(callSite);

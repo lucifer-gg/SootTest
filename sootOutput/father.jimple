@@ -1,0 +1,37 @@
+public class father extends java.lang.Object
+{
+
+    public void <init>()
+    {
+        father this;
+
+        this := @this: father;
+
+        specialinvoke this.<java.lang.Object: void <init>()>();
+
+        return;
+    }
+
+    public boolean fatherMethod()
+    {
+        father this;
+
+        this := @this: father;
+
+        return 0;
+    }
+
+    public java.lang.String passFromFather(java.lang.String)
+    {
+        java.lang.String input, inner;
+        father this;
+
+        this := @this: father;
+
+        input := @parameter0: java.lang.String;
+
+        inner = input;
+
+        return inner;
+    }
+}

@@ -1,4 +1,4 @@
-public class Controller extends java.lang.Object
+public class Controller extends father
 {
 
     public void <init>()
@@ -7,38 +7,55 @@ public class Controller extends java.lang.Object
 
         this := @this: Controller;
 
-        specialinvoke this.<java.lang.Object: void <init>()>();
+        specialinvoke this.<father: void <init>()>();
+
+        return;
+    }
+
+    public static void main(java.lang.String[])
+    {
+        Controller $stack2, controller;
+        java.lang.String[] args;
+
+        args := @parameter0: java.lang.String[];
+
+        $stack2 = new Controller;
+
+        specialinvoke $stack2.<Controller: void <init>()>();
+
+        controller = $stack2;
+
+        virtualinvoke controller.<Controller: boolean LoginController()>();
 
         return;
     }
 
     public boolean LoginController()
     {
-        java.lang.String[] arr;
-        java.lang.String adminString, passwordString, password, userName, p2, p3;
-        LoginParam $stack11, loginParam;
+        java.lang.String adminString, passwordString, password, userName, p3, p2;
+        LoginParam $stack10, loginParam;
+        Controller this;
         Dao $stack15, dao;
         Service $stack17, service;
-        boolean $stack20;
-        Controller this;
+        boolean $stack19;
 
         this := @this: Controller;
-
-        arr = newarray (java.lang.String)[5];
 
         adminString = "admin";
 
         passwordString = "123456";
 
-        $stack11 = new LoginParam;
+        $stack10 = new LoginParam;
 
-        specialinvoke $stack11.<LoginParam: void <init>(java.lang.String,java.lang.String)>("admin", "123456");
+        specialinvoke $stack10.<LoginParam: void <init>(java.lang.String,java.lang.String)>("admin", "123456");
 
-        loginParam = $stack11;
+        loginParam = $stack10;
 
         password = virtualinvoke loginParam.<LoginParam: java.lang.String getPassword()>();
 
         userName = virtualinvoke loginParam.<LoginParam: java.lang.String getUserName()>();
+
+        p3 = specialinvoke this.<father: java.lang.String passFromFather(java.lang.String)>(password);
 
         p2 = virtualinvoke loginParam.<LoginParam: java.lang.String getPassword()>();
 
@@ -56,26 +73,49 @@ public class Controller extends java.lang.Object
 
         service = $stack17;
 
-        <Test: java.lang.String pass> = password;
-
-        p3 = staticinvoke <Test: java.lang.String getPass()>();
-
         virtualinvoke service.<Service: boolean login(java.lang.String,java.lang.String)>("a1", p3);
 
-        $stack20 = virtualinvoke service.<Service: boolean login(java.lang.String,java.lang.String)>(userName, password);
+        $stack19 = virtualinvoke service.<Service: boolean login(java.lang.String,java.lang.String)>(userName, password);
 
-        return $stack20;
+        return $stack19;
     }
 
     public boolean testAA()
     {
-        java.lang.String res;
+        java.lang.String s1, p3;
+        Controller this;
+        boolean $stack4;
+
+        this := @this: Controller;
+
+        s1 = "aa";
+
+        p3 = virtualinvoke this.<Controller: java.lang.String passFromFather(java.lang.String)>(s1);
+
+        if p3 != null goto label1;
+
+        $stack4 = 1;
+
+        goto label2;
+
+     label1:
+        $stack4 = 0;
+
+     label2:
+        return $stack4;
+    }
+
+    private java.lang.String testPrivate(java.lang.String)
+    {
+        java.lang.String input, inner;
         Controller this;
 
         this := @this: Controller;
 
-        res = staticinvoke <A: java.lang.String foo()>();
+        input := @parameter0: java.lang.String;
 
-        return 1;
+        inner = input;
+
+        return inner;
     }
 }

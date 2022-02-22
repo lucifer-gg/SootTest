@@ -1,19 +1,8 @@
-public class A extends java.lang.Object
+public class A extends father
 {
     public java.lang.String load;
     public static java.lang.String staticLoadA;
     public static B b;
-
-    public void <init>()
-    {
-        A this;
-
-        this := @this: A;
-
-        specialinvoke this.<java.lang.Object: void <init>()>();
-
-        return;
-    }
 
     public static java.lang.String foo()
     {
@@ -37,6 +26,34 @@ public class A extends java.lang.Object
         res = virtualinvoke $stack4.<java.lang.StringBuilder: java.lang.String toString()>();
 
         return res;
+    }
+
+    public void <init>(java.lang.String)
+    {
+        A this;
+        java.lang.String load;
+
+        this := @this: A;
+
+        load := @parameter0: java.lang.String;
+
+        specialinvoke this.<father: void <init>()>();
+
+        this.<A: java.lang.String load> = load;
+
+        return;
+    }
+
+    public java.lang.String getLoad()
+    {
+        A this;
+        java.lang.String $stack1;
+
+        this := @this: A;
+
+        $stack1 = this.<A: java.lang.String load>;
+
+        return $stack1;
     }
 
     static void <clinit>()
